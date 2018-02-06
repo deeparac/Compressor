@@ -1,26 +1,23 @@
-#include "include/Shannon.h"
+#include "../include/Shannon.h"
 
 struct cmp {
-    bool operator()(const std::pair<int, char>& lhs, std::pair<int, char>& rfhs) const {
+    bool operator()(const std::pair<int, char>& lhs, std::pair<int, char>& rhs) const {
         return lhs.first > rhs.first;
     }
 }
 
 void Shannon::codelengthProcessor(const std::string& inputFileName) {
-    string distributionFileName = "dist_" + inputFileName;
+    std::string distributionFileName = "dist_" + inputFileName;
     filehandler(inputFileName, distributionFileName);
 
-    std::priority_queue<std::pair<int, char>, std::vector<std::pair<int, char>>, cmp> rst;
     for (const auto& p : distributions) {
-        rst.push({floor((double)p.second / totalCharacters), p.first});
+        queue_length.push(std::make_pair(std::floor((double)p.second / totalCharacters), p.first));
     }
-
-    return rst;
 }
 
 void Shannon::generateCodes(const std::string& codes_file) {
-    std::priority_queue<pair<char, int>> q(queue_length);
-    string code = "";
+    std::priority_queue< std::pair<char, int> > q(queue_length);
+    std::string code = "";
     while (!q.empty()) {
         const auto p = q.top(); q.pop();
         if (q.empty()) {
@@ -47,23 +44,22 @@ void Shannon::generateCodes(const std::string& codes_file) {
     try {
         codestream.open(codes_file);
         for (const auto& p : encodes) {
-            std::cout << p.first << ": " << p.second << std::endl;
+            codestream << p.first << ": " << p.second << std::endl;
         }
-        outstream.close();
+        codestream.close();
     } catch (std::ofstream::failure e) {
         std::cerr << "Exception opening/reading/closing codes file.\n";
     }
     std::cout << "Finished generating codes file." << std::endl;
 }
 
-std::string Shannon::encoding(const std::string& input_file) {
+std::string Shannon::encoding(const std::string& input_file, const std::string& codes_file) {
     std::string encoded_string = "";
     std::string line;
     std::ifstream fstream;
 
     codelengthProcessor(input_file);
-    // to be fixed.
-    generateCodes();
+    generateCodes(codes_file);
 
     try {
         fstream.open(input_file);
@@ -94,7 +90,7 @@ std::string Shannon::encoding(const std::string& input_file) {
     return encoded_string;
 }
 
-std::string Shannon::decoding(const std:string& encoded_file) {
+std::string Shannon::decoding(const std::string& encoded_file) {
     std::string decoded_string = "";
     std::string code = "";
     char char_reader;

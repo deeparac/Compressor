@@ -1,4 +1,4 @@
-#include "include/BaseCompressor.h"
+#include "../include/BaseCompressor.h"
 
 BaseCompressor::BaseCompressor() : totalCharacters(0) {
 
@@ -8,10 +8,33 @@ BaseCompressor::~BaseCompressor() {
 
 }
 
-void BaseCompressor::filehandler(const std:string& inputFileName, const std:string& distributionFileName) {
+std::unordered_map<char, int> BaseCompressor::getDistributions() {
+    return distributions;
+}
+
+void BaseCompressor::setEncodes(char key, std::string val) {
+    encodes[key] = val;
+}
+
+void BaseCompressor::setDecodes(std::string key, char val) {
+    decodes[key] = val;
+}
+
+std::string BaseCompressor::getEncodes(char key) {
+    return encodes[key];
+}
+char BaseCompressor::getDecodes(std::string key) {
+    return decodes[key];
+}
+
+bool BaseCompressor::decodesContain(std::string key) {
+    return decodes.find(key) != decodes.end();
+}
+
+void BaseCompressor::filehandler(const std::string& inputFileName, const std::string& distributionFileName) {
     resetter();
     std::ifstream filestream;
-    string line;
+    std::string line;
     try {
         filestream.open(inputFileName);
         if (filestream.is_open()) {
@@ -44,13 +67,6 @@ void BaseCompressor::filehandler(const std:string& inputFileName, const std:stri
 void BaseCompressor::resetter() {
     totalCharacters = 0;
     distributions.clear();
-    codes.clear();
-}
-
-void BaseCompressor::encoding(const std::string& input_file) {
-
-}
-
-void BaseCompressor::decoding(const std:string& encoded_file) {
-
+    encodes.clear();
+    decodes.clear();
 }
