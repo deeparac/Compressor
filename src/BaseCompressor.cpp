@@ -1,6 +1,6 @@
 #include "BaseCompressor.h"
 
-BaseCompressor::BaseCompressor() {
+BaseCompressor::BaseCompressor() : totalCharacters(0) {
 
 }
 
@@ -9,6 +9,7 @@ BaseCompressor::~BaseCompressor() {
 }
 
 void BaseCompressor::filehandler(std:string inputFileName, std:string distributionFileName) {
+    resetter();
     std::ifstream filestream;
     string line;
     try {
@@ -17,6 +18,7 @@ void BaseCompressor::filehandler(std:string inputFileName, std:string distributi
             while (getline(filestream, line)) {
                 for (const char& c : line) {
                     distributions[c] += 1;
+                    totalCharacters += 1;
                 }
             }
             filestream.close();
@@ -37,6 +39,12 @@ void BaseCompressor::filehandler(std:string inputFileName, std:string distributi
         std::cerr << "Exception opening/reading/closing output file.\n";
     }
     std::cout << "Finished outputing distributions file." << std::endl;
+}
+
+void BaseCompressor::resetter() {
+    totalCharacters = 0;
+    distributions.clear();
+    codes.clear();
 }
 
 void BaseCompressor::encoding(std::string input_file) {

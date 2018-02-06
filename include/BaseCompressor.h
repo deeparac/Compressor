@@ -11,12 +11,15 @@
 class BaseCompressor {
 private:
     unordered_map<char, int> distributions;
+    unordered_map<char, string> codes;
+    int totalCharacters;
 public:
     BaseCompressor();
     ~BaseCompressor();
     void filehandler(std:string inputFileName, std:string distributionFileName);
-    void encoding(std::string input_file);
-    void decoding(std:string encoded_file);
+    void resetter();
+    virtual void encoding(std::string input_file) = 0;
+    virtual void decoding(std:string encoded_file) = 0;
 };
 
 #endif
