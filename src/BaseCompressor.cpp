@@ -1,4 +1,4 @@
-#include "BaseCompressor.h"
+#include "include/BaseCompressor.h"
 
 BaseCompressor::BaseCompressor() : totalCharacters(0) {
 
@@ -8,7 +8,7 @@ BaseCompressor::~BaseCompressor() {
 
 }
 
-void BaseCompressor::filehandler(std:string inputFileName, std:string distributionFileName) {
+void BaseCompressor::filehandler(const std:string& inputFileName, const std:string& distributionFileName) {
     resetter();
     std::ifstream filestream;
     string line;
@@ -47,10 +47,10 @@ void BaseCompressor::resetter() {
     codes.clear();
 }
 
-void BaseCompressor::encoding(std::string input_file) {
+void BaseCompressor::encoding(const std::string& input_file) {
 
 }
 
-void BaseCompressor::decoding(std:string encoded_file) {
+void BaseCompressor::decoding(const std:string& encoded_file) {
 
 }

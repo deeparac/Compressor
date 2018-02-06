@@ -31,13 +31,14 @@ struct compare {
 class Huffman : public BaseCompressor {
 private:
     Node* root;
-    void generator(Node* p, std::string str, std::ofstream os);
+    void generator(Node* p, std::string&s str, const std::ofstream& os);
 public:
     Huffman();
-    void encoding(std::string input_file);
-    void decoding(std:string encoded_file);
-    void buildHuffmanTree(std::string input_file);
-    void generateCodes(std::string codes_file);
+    void encoding(const std::string& input_file);
+    std::string decoding(const std:string& encoded_file);
+    std::string decodingFromExternalFile(const std:string& encoded_file, const std:string& encoded_file);
+    void buildHuffmanTree(const std::string& input_file);
+    void generateCodes(const std::string& codes_file);
 };
 
 #endif
