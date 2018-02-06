@@ -11,7 +11,7 @@ bool compare::operator()(const Node* lhs, const Node* rhs) const {
     return lhs -> frequency > rhs -> frequency;
 }
 
-Huffman::Huffman() : root(nullptr), curr(nullptr) {}
+Huffman::Huffman() : root(nullptr) {}
 
 void Huffman::buildHuffmanTree(const std::string& inputFileName) {
     string distributionFileName = "dist_" + inputFileName;
